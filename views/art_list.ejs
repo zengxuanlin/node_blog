@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>博客后台管理</title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+<div class="page-wrapper">
+    <% include ./component/nav_bar.ejs {user:user.name}%>
+    <div class="main-container">
+        <% include ./component/side_bar.ejs %>
+        <div class="content">
+                <div class="container-fluid">
+                        <div class="row">
+                                <div class="col-md-10">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            我的文章
+                                        </div>
+                
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>序号</th>
+                                                        <th>标题</th>
+                                                        <th>评论数</th>
+                                                        <th>发表时间</th>
+                                                        <th>操作</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody> 
+                                                    <% art_content.map(function(item,index){%>
+                                                        <tr>
+                                                            <td><%=index+=1 %></td>
+                                                            <td><%=item.title %></td>
+                                                            <td><%=item.comments.length %></td>
+                                                            <td><%=dateFormat(item.date) %></td>
+                                                            <td>
+                                                                <button class="btn btn-success" data-toggle="modal" data-target="#modal-5" id="editBtn" onclick="editHandle('<%=item._id %>')">编辑</button>
+                                                                <button class="btn btn-danger" onclick="delHandle(this)" data-id="<%=item._id %>">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    <% }) %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="top:200px">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success border-0">
+                    <h5 class="modal-title text-white">修改</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body p-5">
+                        <div class="container-fluid">
+                                <div class="row">
+                                        <div class="col">
+                                                <div class="form-group">
+                                                        <label for="required-input" class="require">标题</label>
+                                                        <input id="required-title" class="form-control">
+                                                    </div>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col">
+                                                <div class="form-group">
+                                                    <label for="textarea" class="require">内容</label>
+                                                    <textarea id="textarea" class="form-control" rows="6"></textarea>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                </div>
+    
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="submitBtn" onclick='submitHandle(this)'>提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+  <script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+  <script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/javascripts/ajax.js"></script>
+  <script>
+
+
+
+          function editHandle(id){
+                /* $.get({
+                    url:'/home/art_list/edit',
+                    data:{_id:id},
+                    success(res,a){
+                        $('#required-title').val(res.title);
+                        $('#textarea').val(res.body);
+                        $('#submitBtn').attr('data-id',res._id);
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                }) */
+                ajax_blog({type:'get',url:'/home/art_list/edit',data:{_id:id}}).then(function(res){
+                    $('#required-title').val(res.title);
+                    $('#textarea').val(res.body);
+                    $('#submitBtn').attr('data-id',res._id);
+                })
+          }
+
+
+          function submitHandle(self){
+            let art_id = $(self).attr('data-id');
+            let zTitle = $('#required-title').val();
+            let zContent = $('#textarea').val();
+                if(!zTitle || !zContent){
+                    return false;
+                }else{
+                    ajax_blog({url:'/home/art_list',data:{
+                        _id:art_id,
+                        title:zTitle,
+                        body:zContent
+                    }}).then(function(){
+                        alert('修改成功');
+                        location.href = '/home/art_list';
+                    },function(){
+                        console.log('提交失败')
+                    })
+                }
+        
+          }
+
+          function delHandle(self){
+            let art_id = $(self).attr('data-id').toString();
+            try {
+                let delMes = confirm('确定删除吗?');
+                if(delMes){
+                    ajax_blog({url:'/home/art_list/del',data:{_id:art_id}}).then(function(){
+                        location.href = '/home/art_list';
+                    },function(){
+                        console.log('删除成功失败')
+                    })
+                }
+            } catch (error) {
+                
+            }
+          }
+  </script>
+</html>

@@ -1,0 +1,70 @@
+<div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-title">user</li>
+
+                <li class="nav-item">
+                    <a href="/home" class="nav-link">
+                        <i class="icon icon-speedometer"></i> 首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a href="/home/art_list" class="nav-link">
+                            <i class="icon icon-puzzle"></i> 我的
+                        </a>
+                    </li>
+
+                <li class="nav-item">
+                    <a href="/home/art_publish" class="nav-link">
+                        <i class="icon icon-puzzle"></i> 发布
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="tables.html" class="nav-link">
+                        <i class="icon icon-grid"></i> 资料
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="/" class="nav-link">
+                        <i class="icon icon-grid"></i> 博客首页
+                    </a>
+                </li>
+
+                <li class="nav-title">More</li>
+
+                <li class="nav-item nav-dropdown">
+                    <a href="#" class="nav-link nav-dropdown-toggle">
+                        <i class="icon icon-umbrella"></i> 其他 <i class="fa fa-caret-left"></i>
+                    </a>
+
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <i class="icon icon-umbrella"></i> 博客首页
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+    <script>
+        $(function(){
+            let tagA = $('.nav-item');
+        
+            tagA.find('a').each(function(){
+                if($(this).attr('href') == regxUrl(location.href)){
+                    $(this).addClass('active');
+                }
+            })
+            function regxUrl(url){
+                let arr = url.toString().split('//');
+                let host = location.host;
+                
+                return arr[1].replace(host,'');
+            }
+        })
+    </script>

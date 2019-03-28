@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+  </head>
+  <body>
+    
+  <!-- <div class='container'>
+    <form class="form-horizontal" style="width: 50%" onsubmit="return false" method="POST">
+        <fieldset>
+            <legend>登录</legend>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="inputEmail3" placeholder="用户名">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="密码">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default " id='login0'>登录</button>
+                </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default " id='register0'>注册</button>
+                  </div>
+                </div>
+        </fieldset>
+      </form>
+  </div> -->
+  <div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        管理员登录
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">账号</label>
+                            <input type="email" class="form-control" id="inputEmail3">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="password" class="form-control" id="inputPassword3">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary px-5" id="login0">登录</button>
+                            </div>
+
+                            <div class="col-6">
+                                <a href="#" class="btn btn-link" id="register0">注册</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  </body>
+<script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+<script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/javascripts/carbon.js"></script>
+<script src="/javascripts/ajax.js"></script>
+  <script>
+      $('#register0').click(function(){
+        location.href = 'register';
+      })
+
+      $('#login0').on('click',()=>{
+        var username = $('#inputEmail3').val();
+        var password = $('#inputPassword3').val();
+
+        if(!username || !password)return false;
+        
+        var data={
+          uname:username,
+          upwd:password
+        }
+
+        /* $.post({
+          url:'/login',
+          data:data,
+          success(data,status){
+            if(status === 'success'){
+              location.href = 'home';
+            }
+          },
+          error(err,status){
+            console.log(err,status);
+            alert(err.responseText);
+          }
+        }) */
+        ajax_blog({url:'/login',data}).then(function(){
+          location.href = 'home';
+        },function(err,status){
+          alert(err);
+        })
+      })
+      
+  </script>
+</html>

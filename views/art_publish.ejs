@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>博客后台管理</title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+<div class="page-wrapper">
+    
+    <% include ./component/nav_bar.ejs {user:user.name}%>
+    <div class="main-container">
+        <% include ./component/side_bar.ejs %>
+        <div class="content">
+                <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header bg-light">
+                                        发布
+                                    </div>
+        
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                    <div class="form-group">
+                                                            <label for="required-input" class="require">标题</label>
+                                                            <input id="required-title" class="form-control">
+                                                        </div>
+                                            </div>
+        
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="textarea" class="require">内容</label>
+                                                            <textarea id="textarea" class="form-control" rows="6"></textarea>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                        <div class="row">
+                                                <div class="col-md-4">
+                                                        <button class="btn btn-rounded btn-primary" id="zPublish">发 布 </button>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+  <script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+  <script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/javascripts/ajax.js"></script>
+  <script>
+      $(function(){
+          $('#zPublish').on('click',function(){
+              let zTitle = $('#required-title').val();
+              let zContent = $('#textarea').val();
+                if(!zTitle || !zContent){
+                    return false;
+                }else{
+                    ajax_blog({url:'/home/art_publish',data:{
+                        title:zTitle,
+                        body:zContent
+                    }}).then(function(){
+                        alert('发布成功');
+                        location.href = '/home/art_list';
+                    },function(){
+                        console.log('注册失败')
+                    })
+                }
+          })
+      })
+  </script>
+</html>

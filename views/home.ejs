@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>博客后台管理</title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+  <!-- <h1>Your name:   <%= user %></h1>
+    <p>Welcome to your home ~</p>
+    <p><a href="/logout">我要注销 </a>
+    </p> -->
+<div class="page-wrapper">
+    <% include ./component/nav_bar.ejs {user:user.name}%>
+    <div class="main-container">
+        <% include ./component/side_bar.ejs %>
+        <div class="content">
+            <div class="container-fluid">
+                    <div class="row ">
+                            <div class="col-md-6">
+                                <div class="card text-white border-0">
+                                    <div class="card-body bg-primary">
+                                       欢迎回来   <%=user.name%>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                        </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="h4 d-block font-weight-normal mb-2"><%=art_count %></span>
+                                    <span class="font-weight-light">我的文章</span>
+                                </div>
+
+                                <div class="h2 text-muted">
+                                    <i class="icon icon-people"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!--  <div class="col-md-3">
+                        <div class="card p-4">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="h4 d-block font-weight-normal mb-2">$32,400</span>
+                                    <span class="font-weight-light">我的留言</span>
+                                </div>
+
+                                <div class="h2 text-muted">
+                                    <i class="icon icon-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+  <script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+  <script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--   <script src="/javascripts/carbon.js"></script>
+  <script src="/javascripts/demo.js"></script> -->
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <style>
+        .form-group{
+            padding: 0 15px;
+        }
+    </style>
+</head>
+  <body>
+    
+  <!-- <div class='container'>
+        <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" onsubmit="return false">
+                <fieldset>
+                    <legend></legend>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p class="tc">注册信息</p>
+                    </div>
+                    <div class="panel-body m15">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                            </span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            <input type="text" class="form-control" id="password1" name="password1" placeholder="请再次输入密码" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" id="register1" onclick="registerfn()">注册</button>
+                    </div>
+                    <div class="form-group">
+                            <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1" onclick="loginrouter()">登录</button>
+                    </div>
+                    </div>
+                    </div>
+                </fieldset>
+            </form>
+  </div> -->
+  <div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        注册
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">用户名</label>
+                            <input type="name" class="form-control" id="username" name="username" placeholder="请输入用户名">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">密码</label>
+                            <input type="email" class="form-control" id="password" name="password" placeholder="请输入密码">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">确认密码</label>
+                            <input type="password" class="form-control" id="password1" name="password1" placeholder="请再次输入密码">
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success btn-block" onclick="registerfn()">创建账户</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+        
+                <h4 class="modal-title" id="myModalLabel">提示</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body" id="Modal-Content"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+<script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/javascripts/ajax.js"></script>
+  <script>
+        let registerfn = ()=>{
+          let username = $('#username').val();
+          let password = $("#password").val();
+          let password1 = $("#password1").val();
+          if(password!=password1){
+            $('#myModal').modal('show');
+            $('#Modal-Content').text('两次密码输入不一致');
+          }else if(password =='' || password1 == ''){
+                $('#myModal').modal('show');
+            $('#Modal-Content').text('密码不能为空');
+                return false;
+          }else if(password == password1){
+              
+            let datas ={"uname":username,"upwd":password};
+
+            ajax_blog({url:'/register',data:datas}).then(function(){
+                $('#myModal').modal('show');
+                $('#Modal-Content').text('账号创建成功');
+                setTimeout(function(){location.href='login'},3000)
+            },function(){
+                console.log('注册失败')
+            })
+          }
+      }
+  </script>
+</html>

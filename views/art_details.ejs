@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= art.title %></title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="page-header">
+          <nav class="navbar page-header">
+              <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                  <i class="fa fa-bars"></i>
+              </a>
+  
+              <a class="navbar-brand text-center" href="#" >
+                 Zeng's blog
+              </a>
+              <a href="/" class="btn btn-link sidebar-toggle d-md-down-none">
+                主页
+            </a>
+              <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                  关于博主
+              </a>
+              <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                留言板
+            </a>
+              <ul class="navbar-nav ml-auto">
+                  <div class="col-md-8">
+                      <div class="input-group">
+                          <input type="text" id="input-group-1" name="input1-group2" class="form-control" placeholder="文章搜索">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                          </span>
+                        
+                      </div>
+                  </div>
+                  <div class="col">
+                      <% if (user) { %>
+
+                        <a href="/login">个人中心</a>
+             
+                        <% } else { %>
+             
+                          <a href="/register">注册</a> / <a href="/login">登录</a>
+             
+                        <% } %>
+                  </div>
+              </ul>
+          </nav>
+      </div>
+  
+      <div class="container">
+          <div class="content">
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="min-height:500px">
+                            <div class="card-header bg-light text-center">
+                                <h3><%= art.title%></h3>
+                            </div>
+    
+                            <div class="card-body bg-light" style="line-height:2;text-indent: 5rem">
+                                <%= art.body%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-white border-0">
+                            <div class="card-header bg-secondary">
+                               评论区
+                            </div>
+                            <% if (art.comments.length ===0 ) { %>
+
+                                <div style="color:#000;min-height: 100px;display: flex;justify-content: center;align-items: center" >
+                                    该条文章暂未留言,赶紧说点什么吧...
+                                </div>
+                     
+                                <% } else { %>
+                     
+                                    <div class="card-body bg-ligh" style="color:#000">
+                                        <ul class="list-group bg-ligh" >
+                                            <% art.comments.map(function(item,index){%>
+                                                <li class="list-group-item bg-light">
+                                                        <p style="font-size:12px"><%=item.name%> &nbsp; &nbsp;<%=dateFormat(item.date)%></p>
+                                                        <p style="text-indent:1rem"><%=item.body %></p>
+                                                </li>
+                                            <% }) %>
+                                          </ul>
+                                    </div>
+                     
+                                <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-white border-0">
+                            <div class="card-header bg-info">
+                               发表评论
+                            </div>
+    
+                            <div class="card-body bg-light" style="color:#000">
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label require">您的姓名</label>
+                                                    <input class="form-control" id="nameId">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label require">发表内容</label>
+                                                    <textarea name="" id="textarea" class="form-control" rows="6"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light text-right">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary" id="submitBtn" data-id='<%=art._id %>'>提交</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+      </div>
+  </div>
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+<script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/javascripts/ajax.js"></script>
+<script>
+    $(function(){
+        $('#submitBtn').on('click',function(){
+            let nameVal = $('#nameId').val();
+            let msgVal = $('#textarea').val();
+            let _id = $(this).attr('data-id');
+            if(!nameVal || !msgVal){
+                return false;
+            }else{
+                ajax_blog({url:'/blog/new_comment',data:{
+                    _id,
+                    name:nameVal,
+                    msg:msgVal,
+                }}).then(function(){
+                    alert('发表成功');
+                    location.reload();
+                    },function(){
+                        console.log('发表失败')
+                    })
+            }
+        })
+    })
+</script>
+</html>

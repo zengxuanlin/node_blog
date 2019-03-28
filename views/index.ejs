@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= webname %></title>
+    <link rel="stylesheet" href="/javascripts/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/javascripts/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="page-header">
+          <nav class="navbar page-header">
+              <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+                  <i class="fa fa-bars"></i>
+              </a>
+  
+              <a class="navbar-brand text-center" href="#" >
+                 Zeng's blog
+              </a>
+              <a href="/" class="btn btn-link sidebar-toggle d-md-down-none">
+                主页
+            </a>
+              <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                  关于博主
+              </a>
+              <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+                留言板
+            </a>
+              <ul class="navbar-nav ml-auto">
+                  <div class="col-md-8">
+                      <div class="input-group">
+                          <input type="text" id="input-group-1" name="input1-group2" class="form-control" placeholder="文章搜索">
+                          <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button>
+                          </span>
+                        
+                      </div>
+                  </div>
+                  <div class="col">
+                      <% if (user) { %>
+
+                        <a href="/login">个人中心</a>
+             
+                        <% } else { %>
+             
+                          <a href="/register">注册</a> / <a href="/login">登录</a>
+             
+                        <% } %>
+                  </div>
+              </ul>
+          </nav>
+      </div>
+  
+      <div class="container">
+          <div class="content">
+
+                  <% contents.map(function(item,index){%>
+                    <div class="col" data-id='<%=item._id %>'>
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <%=item.title %>
+      
+                                <div class="card-actions">
+                                    <a href="#" class="btn">
+                                        发表于
+                                        <%= dateFormat(item.date) %>
+                                      <i class="fa fa-calendar-check"></i>
+                                    </a>
+      
+                                    <a href="#" class="btn">
+                                        作者:<%=item.author %>
+                                    </a>
+                                </div>
+                            </div>
+      
+                            <div class="card-body">
+                                <%=item.body %>
+                            </div>
+                            <div class="text-right" style="padding: 10px;font-size: 12px">
+                                <a href="/blog?id=<%=item._id %>">查看完整文章</a>
+                              </div>
+                            <div style="padding: 10px" class="text-right">
+          
+                                <a href="/blog?id=<%=item._id %>" >
+                                    <i class="fa fa-comments"></i>&nbsp;( <%=item.comments.length %> )
+                                  </a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+
+          </div>
+      </div>
+  </div>
+  </body>
+  <script src="/javascripts/vendor/jquery/jquery.min.js"></script>
+<script src="/javascripts/vendor/popper.js/popper.min.js"></script>
+<script src="/javascripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="/javascripts/carbon.js"></script>
+<script src="/javascripts/demo.js"></script> -->
+
+</html>
