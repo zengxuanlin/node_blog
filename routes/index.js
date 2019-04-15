@@ -2,7 +2,7 @@ var express = require('express');
 var moment = require('moment');
 var router = express.Router();
 var app = new express();
-
+const crypto = require('crypto');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let arts = global.dbHandel.getModel('article');
@@ -58,7 +58,7 @@ router.route("/register").get(function(req,res){    // 渲染注册页面
    //从数据库中获取user集合对象;
   var User = global.dbHandel.getModel('user');
   var uname = req.body.uname;
-  var upwd = req.body.upwd;
+  var password = crypto.createHash('md5').update(req.body.upwd, 'utf-8').digest('hex');
   User.findOne({name: uname},function(err,doc){ 
       if(err){ 
           res.send(500);
@@ -69,7 +69,7 @@ router.route("/register").get(function(req,res){    // 渲染注册页面
       }else{ 
           User.create({                             // 创建一组user对象到数据库中
               name: uname,
-              password: upwd
+              password: password
           },function(err,doc){ 
                if (err) {
                       res.send(500);
@@ -91,7 +91,7 @@ router.route("/login").get(function(req,res){
   res.render("login",{title:'User Login'});
 }).post(function(req,res){        
   var User = global.dbHandel.getModel('user');  
-
+  var password = crypto.createHash('md5').update(req.body.upwd, 'utf-8').digest('hex'); 
   User.findOne({name:req.body.uname},(err,doc)=>{
     if(!err && !doc){
       console.log('错误');
@@ -103,7 +103,7 @@ router.route("/login").get(function(req,res){
       req.session.error = '用户名不存在';
       res.send(404);
     }else if(doc){
-      if(req.body.upwd != doc.password){
+      if(password != doc.password){
         res.status(404);
         req.session.error = "密码错误";
         res.send(req.session.error);
