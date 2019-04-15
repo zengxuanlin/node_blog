@@ -1,10 +1,10 @@
-Íê³É×î¼òÒ×µÄ¹¦ÄÜ µÇÂ½¡¢×¢²á¡¢·¢²¼¡¢ÆÀÂÛ¡¢±à¼­¡¢É¾³ý
+å®Œæˆæœ€ç®€æ˜“çš„åŠŸèƒ½ ç™»é™†ã€æ³¨å†Œã€å‘å¸ƒã€è¯„è®ºã€ç¼–è¾‘ã€åˆ é™¤
 
-ÇëÏÈ°²×°MongoDB  ·ñÔòÃ»ÓÃ
+è¯·å…ˆå®‰è£…MongoDB  å¦åˆ™æ²¡ç”¨
 
-ÏÂÔØÒÀÀµnpm install
+ä¸‹è½½ä¾èµ–npm install
 
-ÔËÐÐÏîÄ¿node .\bin\www
+è¿è¡Œé¡¹ç›® npm run start
 
 localhost:3000
 
